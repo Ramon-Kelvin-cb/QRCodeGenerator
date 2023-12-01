@@ -4,8 +4,7 @@ import CoreImage
 //Processo de conversão:
 //String -> Data -> CIImage -> PNGData (Data)
 
-//Gera um QRCode a partir de uma String (Um QRCode é apenas uma tradução de uma String,
-//quem decide o que fazer com a String traduzida é a aplicação)
+///Generates a CIImage? QRCode based on a String
 func generateQRcode(dados: String) -> CIImage? {
     // Criação de um filtro para código QR
     guard let filtroQR:CIFilter = CIFilter(name: "CIQRCodeGenerator") else {
@@ -23,7 +22,7 @@ func generateQRcode(dados: String) -> CIImage? {
     return ciImage
 }
 
-//A imagem ao sair do filtro vem com uma resolução baixa, aqui a imagem é escalada para se obter uma qualidade maior
+///Increases the size of a CIImage?
 func increaseImageSize(of image:CIImage?) -> CIImage? {
     if let myImage:CIImage = image {
         return myImage.transformed(by: .init(scaleX: 100, y: 100))
@@ -32,7 +31,7 @@ func increaseImageSize(of image:CIImage?) -> CIImage? {
     }
 }
 
-//Converte a CIImage em PNGData (Data) que pode ser salva em arquivo ou até mesmo subida para algum serviço externo
+///Converts your CIImages into PNG data for further use
 func createPNGData(image: CIImage?) -> Data? {
     let context:CIContext = CIContext()
 
@@ -45,8 +44,7 @@ func createPNGData(image: CIImage?) -> Data? {
     }
 }
 
-//O arquivo está sendo salvo na pasta Documentos com essa função
-//Em futuras implementações você poderá escolher onde salvar o arquivo
+///Writes your PNG data into your documents folder
 func saveToArchives(data: Data?, name: String) {
     if let documentsDirectory:URL = FileManager.default.urls(for: .documentDirectory,
                                                              in: .userDomainMask).first {
@@ -66,12 +64,10 @@ func saveToArchives(data: Data?, name: String) {
 }
 }
 
-//Ordem de execução:
-//Declara a String
-//Joga a String na função generateQRCode
-//O resultado joga em increaseImageSize
-//O resultado joga em createPNGData
-//Caso queira, você pode jogar o resultado desse último método em saveToArchive para salvar o PNG resultante
+//Order of execution
+//Declares the string
+//Use the String into the generateQRcode function
+//Use the result into the increaseImageSize function
+//Create the PNG data in the createPNGData function]
 
-//Atualmente não está havendo uma tratativa de erros, caso em algum momento a função não funcione
-//ela simplesmente joga um valor nulo para a próxima etapa
+//The file is being saved into the Documents folder in the saveToArchives function
